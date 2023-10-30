@@ -36,7 +36,7 @@ sealed class RegistrationNetworkService {
       print("R----------------${response.statusCode}-----------");
       if(response.statusCode == 200 || response.statusCode == 201) {
         final takeToken = jsonDecode(response.body);
-        Store.setToken(takeToken["tokens"]["access"], takeToken["tokens"]["refresh"]);
+        Store.setToken(takeToken["access"], takeToken["refresh"]);
         debugPrint(response.body);
         return true;
       }

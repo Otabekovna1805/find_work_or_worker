@@ -1,15 +1,12 @@
 
-
 import 'package:find_work_or_worker/constants/images.dart';
 import 'package:find_work_or_worker/constants/strings.dart';
-import 'package:find_work_or_worker/core/service_locator.dart';
 import 'package:find_work_or_worker/pages/sign_in.dart';
 import 'package:find_work_or_worker/service/registration_network_service.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import '../views/container.dart';
+import '../core/service_locator.dart';
 import '../views/textfield.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -21,12 +18,14 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
   final confirmController = TextEditingController();
   final lastnameController = TextEditingController();
   final firstnameController = TextEditingController();
   final phoneNumberController = TextEditingController();
-  bool _visible = true;
+  bool _visible1 = true;
+  bool _visible2 = true;
 
   Future<void> createUser() async {
     final Map<String,Object?> data ={
@@ -54,29 +53,29 @@ class _SignUpPageState extends State<SignUpPage> {
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.sp),
             child: Column(
               children: [
                 Container(child: Lottie.asset(Images.signUp)),
                 CustomTextField(controller: firstnameController, title: Strings.firstName),
                 SizedBox(
-                  height: 20.h,
+                  height: 20.sp,
                 ),
                 CustomTextField(controller: lastnameController, title: Strings.firstName),
                 SizedBox(
-                  height: 20.h,
+                  height: 20.sp,
                 ),
                 CustomTextField(controller: emailController, title: Strings.email),
                 SizedBox(
-                  height: 20.h,
+                  height: 20.sp,
                 ),
                 TextField(
-                  obscureText: _visible,
+                  obscureText: _visible1,
                   controller: passwordController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(top: 17.sp, bottom: 17.sp, left: 12.sp, right: 20.sp),
-                    suffix: GestureDetector(onTap: () => setState(() => _visible = !_visible), child: Icon(_visible ? Icons.visibility_off : Icons.visibility)),
+                    suffix: GestureDetector(onTap: () => setState(() => _visible1 = !_visible1), child: Icon(_visible1 ? Icons.visibility_off : Icons.visibility)),
                     hintText: Strings.password,
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
@@ -93,15 +92,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 20.sp,
                 ),
                 TextField(
-                  obscureText: _visible,
+                  obscureText: _visible2,
                   controller: confirmController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(top: 17.sp, bottom: 17.sp, left: 12.sp, right: 20.sp),
-                    suffix: GestureDetector(onTap: () => setState(() => _visible = !_visible), child: Icon(_visible ? Icons.visibility_off : Icons.visibility)),
+                    suffix: GestureDetector(onTap: () => setState(() => _visible2 = !_visible2), child: Icon(_visible2 ? Icons.visibility_off : Icons.visibility)),
                     hintText: Strings.confirmPassword,
                     focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
@@ -118,44 +117,58 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 20.h,
+                  height: 20.sp,
                 ),
                 CustomTextField(controller: phoneNumberController, title: Strings.phoneNumber),
                 SizedBox(
-                  height: 20.h,
+                  height: 20.sp,
                 ),
                 InkWell(
-                  onTap: () => createUser(),
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  child: CustomContainer(
-                      width: 320.w, text: Strings.signUp, height: 57.h),
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                       TextSpan(
-                          text: Strings.haveYouAccount,
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: mode == ThemeMode.light ? Colors.black : Colors.white,
-                            fontWeight: FontWeight.w600
-                          ),
-                       ),
-                      TextSpan(
-                        text: Strings.signUp,
-                        style: const TextStyle(color: Colors.lightBlueAccent),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => const SignInPage()));
-                          },
-                      ),
-                    ],
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const SignInPage()));
+                  },
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 67.sp,
+                    width: 315.sp,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+                      border: Border.all(width: 3.sp, color: mode == ThemeMode.dark ? Colors.white.withOpacity(0.5) : Colors.black,),
+                    ),
+                    child: Text(Strings.signUp,
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w600,
+                          color: mode == ThemeMode.dark ? Colors.white.withOpacity(0.5) : Colors.black,
+                        )),
                   ),
                 ),
+                SizedBox(
+                  height: 20.sp,
+                ),
+                 Padding(
+                   padding:  EdgeInsets.only(left: 70.sp),
+                   child: Row(
+                    children: [
+                           Text(
+                            Strings.haveYouAccount,
+                            style: TextStyle(fontSize: 16.sp),
+                            ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SignInPage()));
+                            },
+                            child: Text(
+                              Strings.signIn,
+                              style: TextStyle(color: Colors.lightBlueAccent, fontSize: 16.sp),
+                            ),
+                          ),
+                    ],
+                ),
+                 )
+
               ],
             ),
           ),

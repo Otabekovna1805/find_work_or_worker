@@ -1,4 +1,4 @@
-import 'package:find_work_or_worker/core/service_locator.dart';
+ import 'package:find_work_or_worker/core/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,10 +18,10 @@ class CustomContainer extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-          border: Border.all(width: 3.sp, ),
+          border: Border.all(width: 3.sp, color: mode == ThemeMode.light ? Colors.black : Colors.white.withOpacity(0.4)),
           color: color ?? Colors.transparent
         ),
-        child: Text(text, style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: color != null ? Colors.white : Colors.black)),
+        child: Text(text, style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: color != null  ? Colors.black : Colors.white.withOpacity(0.7))),
       ),
     );
   }

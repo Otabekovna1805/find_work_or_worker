@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:find_work_or_worker/constants/strings.dart';
 import 'package:find_work_or_worker/pages/home_page.dart';
 import 'package:find_work_or_worker/service/network_service.dart';
-import 'package:find_work_or_worker/views/container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -131,7 +130,23 @@ class _ResumePageState extends State<ResumePage> {
                     InkWell(
                       onTap: () => create(),
                       borderRadius: BorderRadius.circular(15),
-                      child: CustomContainer(width: 340.w, text: Strings.publishResume, height: 55.sp,)
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 67.sp,
+                        width: 320.sp,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+                          border: Border.all(width: 3.sp, color: Colors.black),
+                        ),
+                        child: Text(
+                          Strings.publishResume,
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -143,3 +158,5 @@ class _ResumePageState extends State<ResumePage> {
     );
   }
 }
+
+

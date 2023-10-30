@@ -104,7 +104,7 @@ class _ResumesPageState extends State<ResumesPage> {
                          Padding(
                           padding: EdgeInsets.only(left: 10.sp),
                           child: Text(
-                            "Age: 14 y.o",
+                            "Age: ${item.gender}",
                             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w900, fontFamily: "Exo"),
                           ),
                         ),
@@ -120,7 +120,7 @@ class _ResumesPageState extends State<ResumesPage> {
                       children: [
                         Image.asset(
                           "assets/image/technological.png",
-                          height: 30.sp.sp,
+                          height: 30.sp,
                         ),
                          Expanded(
                           child: Padding(

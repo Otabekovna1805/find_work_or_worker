@@ -2,7 +2,6 @@ import 'package:find_work_or_worker/constants/images.dart';
 import 'package:find_work_or_worker/constants/strings.dart';
 import 'package:find_work_or_worker/pages/home_page.dart';
 import 'package:find_work_or_worker/pages/sign_in.dart';
-import 'package:find_work_or_worker/views/container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,22 +25,51 @@ class IntroPage extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const HomePage()));
               },
               borderRadius: BorderRadius.circular(20),
-              child: CustomContainer(
-                  width: 300.sp, text: Strings.joinUs, height: 67.sp, color: Colors.black,),
+              child: Container(
+                alignment: Alignment.center,
+                height: 67.sp,
+                width: 300.sp,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+                    border: Border.all(width: 3.sp),
+                    color: Colors.black),
+                child: Text(Strings.joinUs,
+                    style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white)),
+              ),
             ),
             SizedBox(
               height: 20.sp,
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SignInPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const SignInPage()));
               },
               borderRadius: BorderRadius.circular(20),
-              child: CustomContainer(
-                  width: 300.sp, text: Strings.signIn, height: 67.sp),
+              child: Container(
+                alignment: Alignment.center,
+                height: 67.sp,
+                width: 300.sp,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+                  border: Border.all(width: 3.sp, color: Colors.black),
+                ),
+                child: Text(
+                  Strings.signIn,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                ),
+              ),
             ),
           ],
         ),

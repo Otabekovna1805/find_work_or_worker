@@ -1,29 +1,29 @@
-import 'package:shared_preferences/shared_preferences.dart';
 
-sealed class Store{
-  static const String _tokenKey = "accessToken";
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+sealed class Store {
+  static const String _accessToken = "accessToken";
   static const String _refreshToken = "refreshToken";
+  static const storage = FlutterSecureStorage();
 
-
-  static Future<void> setToken(String token,String refToken) async{
-    final preferences =await SharedPreferences.getInstance();
-    await preferences.setString(_tokenKey, token);
-    await preferences.setString(_refreshToken, refToken);
+  static Future<void> setToken(String accessToken, String refreshToken) async {
+    await storage.write(key: _accessToken, value: accessToken);
+    await storage.write(key: _refreshToken, value: refreshToken);
   }
 
-  static Future<String?> getToken() async{
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.getString(_tokenKey);
+  static Future<String?> accessToken() async {
+    return await storage.read(key: _accessToken);
   }
 
-  static Future<String?> getRefreshToken() async{
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.getString(_refreshToken);
+  static Future<String?> getRefreshToken() async {
+    return await storage.read(key: _refreshToken);
   }
 
-  static Future<void> clear()async{
-    final preferences = await SharedPreferences.getInstance();
-    await preferences.clear();
+  static Future<void> clear(String token) async {
+    await storage.delete(key: token);
   }
 
+  static Future<Map<String, String>> readAll() async {
+    return storage.readAll();
+  }
 }

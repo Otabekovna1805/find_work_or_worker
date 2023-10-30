@@ -14,7 +14,8 @@ class _MePageState extends State<MePage> {
 
   void fetchResumes() async {
     final data = await Network.methodGet(api: Network.apiResumeList);
-    items = Network.parseResumeList(data!);
+    print('--------------------$data');
+    items = Network.parseResumeList(data ?? '');
     setState(() {});
   }
 
@@ -32,8 +33,8 @@ class _MePageState extends State<MePage> {
           final resume = items[i];
           return  ListTile(
             leading: Text(resume.id.toString(), style: Theme.of(context).textTheme.headlineSmall,),
-            title: Text(resume.area, style:  Theme.of(context).textTheme.titleLarge,),
-            subtitle: Text(resume.area, style: Theme.of(context).textTheme.labelMedium),
+            title: Text(resume.birthDate, style:  Theme.of(context).textTheme.titleLarge,),
+            subtitle: Text(resume.gender, style: Theme.of(context).textTheme.labelMedium),
             trailing: Text(resume.title.toString(), style: Theme.of(context).textTheme.bodyMedium),
           );
         },

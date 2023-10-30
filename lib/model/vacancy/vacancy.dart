@@ -1,56 +1,47 @@
 class VacancyModel {
-  final String id;
   final String company;
-  final String technological;
-  final String contact;
-  final String chargeFullName;
-  final String timeToApply;
-  final String workTime;
-  final String area;
+  final String title;
+  final String description;
+  final String experience;
+  final String level;
+  final String overview;
   final String salary;
-  final String addition;
-  final String purpose;
+  final String offer;
+  final List<String> skills;
 
   VacancyModel({
-    required this.id,
     required this.company,
-    required this.chargeFullName,
-    required this.technological,
-    required this.contact,
-    required this.workTime,
-    required this.area,
+    required this.title,
+    required this.description,
+    required this.skills,
+    required this.experience,
     required this.salary,
-    required this.timeToApply,
-    required this.addition,
-    required this.purpose,
+    required this.level,
+    required this.offer,
+    required this.overview,
   });
 
   factory VacancyModel.fromJson(Map<String, Object?> json) => VacancyModel(
-    id: json["id"] as String,
-    company: json["company"] as String,
-    technological: json["technological"] as String,
-    contact: json["contact"] as String,
-    chargeFullName: json["chargeFullName"] as String,
-    timeToApply: json["timeToApply"] as String,
-    workTime: json["workTime"] as String,
-    area: json["area"] as String,
-    salary: json["salary"] as String,
-    addition: json["addition"] as String,
-    purpose: json["purpose"] as String,
-  );
+        company: json["company"] as String,
+        title: json["title"] as String,
+        description: json["description"] as String,
+        skills: json["skills"] as List<String>,
+        experience: json["experience"] as String,
+        salary: json["salary"] as String,
+        level: json["level"] as String,
+        offer: json["offer"] as String,
+        overview: json["overview"] as String,
+      );
 
   Map<String, Object?> toJson() => {
-    "id" : id,
-    "company" : company,
-    "technological" : technological,
-    "contact" : contact,
-    "chargeFullName" : chargeFullName,
-    "timeToApply" : timeToApply,
-    "workTime" : workTime,
-    "area" : area,
-    "salary" : salary,
-    "addition" : addition,
-    "purpose" : purpose,
-  };
-
+        "title": title,
+        "company": company,
+        "experience": experience,
+        "level": level,
+        "salary": salary,
+        "overview": overview,
+        "description": description,
+        "offer": offer,
+        "skills": skills,
+      };
 }

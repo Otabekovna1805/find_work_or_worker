@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:find_work_or_worker/cubit/theme_cubit.dart';
 import 'package:find_work_or_worker/data/local_data_source.dart';
+import 'package:find_work_or_worker/data/save_token.dart';
 import 'package:find_work_or_worker/pages/edit_profile_page.dart';
 import 'package:find_work_or_worker/pages/me_page.dart';
 import 'package:find_work_or_worker/pages/resumes_page.dart';
@@ -16,7 +17,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import '../core/service_locator.dart';
-import '../main.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -119,8 +119,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             children: [
               UserAccountsDrawerHeader(
                 accountName: const Text("🪐"),
-                accountEmail: Text("",
-                  // auth.getUser().toString(),
+                accountEmail: Text("Store.decodedToken.toString()",
                   style: TextStyle(fontSize: 18.sp),
                 ),
                 decoration: const BoxDecoration(

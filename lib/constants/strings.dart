@@ -46,4 +46,10 @@ sealed class Strings {
 
   /// #intro page
   static const joinUs = "Join us";
+
+
+  static const please = "Fill in the fields!!!";
+
+
+
 }
