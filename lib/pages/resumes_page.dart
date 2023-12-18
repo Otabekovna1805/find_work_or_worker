@@ -193,12 +193,7 @@ class _ResumesPageState extends State<ResumesPage> {
                           SizedBox(
                             height: 20.sp,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              userRepository.readEmail().toString() == item.user.email.toString() ? const SizedBox() : IconButton(onPressed: () => delete(item.id!), icon: const Icon(Icons.delete))
-                            ],
-                          ),
+
                         ],
                       )
                   ]),
@@ -221,9 +216,6 @@ class _ResumesPageState extends State<ResumesPage> {
     setState(() => _isLoading = false);
   }
 
-  void delete(int id) async {
-     await Network.methodDelete(id: id, api: Network.apiResumeDelete, );
-     fetchResume();
-    }
+
 
 }
