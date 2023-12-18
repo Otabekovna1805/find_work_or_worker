@@ -222,7 +222,7 @@ class _ResumesPageState extends State<ResumesPage> {
   }
 
   void delete(int id) async {
-     await Network.methodDelete(api: Network.apiResumeDelete, id: id);
+     await Network.methodDelete(id: id, api: Network.apiResumeDelete, );
      fetchResume();
     }
 
