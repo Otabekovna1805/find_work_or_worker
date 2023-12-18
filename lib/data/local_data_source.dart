@@ -32,5 +32,8 @@ class LocalDataSourceImpl implements LocalDataSource {
 enum StorageKey {
   image,
   mode,
-  token
+  email,
+  lastName,
+  phone,
+  id
 }

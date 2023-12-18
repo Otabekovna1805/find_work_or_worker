@@ -1,37 +1,41 @@
+import 'package:find_work_or_worker/model/user/user_model.dart';
+
 class VacancyModel {
+  final int id;
   final String company;
   final String title;
   final String description;
   final String experience;
   final String level;
-  final String overview;
   final String salary;
   final String offer;
-  final List<String> skills;
+  final User user;
+  final String? jobType;
 
   VacancyModel({
+    this.id = 1,
     required this.company,
     required this.title,
     required this.description,
-    required this.skills,
     required this.experience,
     required this.salary,
     required this.level,
     required this.offer,
-    required this.overview,
+    required this.jobType,
+    required this.user
   });
 
   factory VacancyModel.fromJson(Map<String, Object?> json) => VacancyModel(
         company: json["company"] as String,
         title: json["title"] as String,
         description: json["description"] as String,
-        skills: json["skills"] as List<String>,
         experience: json["experience"] as String,
         salary: json["salary"] as String,
         level: json["level"] as String,
         offer: json["offer"] as String,
-        overview: json["overview"] as String,
-      );
+        jobType: json["job_type"] as String,
+    user: User.fromJson(json["user"] as Map<String, Object?>),
+  );
 
   Map<String, Object?> toJson() => {
         "title": title,
@@ -39,9 +43,8 @@ class VacancyModel {
         "experience": experience,
         "level": level,
         "salary": salary,
-        "overview": overview,
         "description": description,
         "offer": offer,
-        "skills": skills,
+        "job_type": jobType,
       };
 }

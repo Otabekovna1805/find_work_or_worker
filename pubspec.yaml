@@ -22,14 +22,12 @@ dependencies:
   path_provider: ^2.1.1
   permission_handler: ^11.0.1
   path: ^1.8.3
-  http: ^0.13.6
-  hive_flutter: ^1.1.0
   flutter_verification_code: ^1.1.7
   cupertino_icons: ^1.0.2
-  jwt_decoder: ^2.0.1
   flutter_secure_storage: ^9.0.0
   equatable: ^2.0.5
   dio: ^5.3.3
+  uuid: ^4.1.0
 
 dev_dependencies:
   flutter_test:

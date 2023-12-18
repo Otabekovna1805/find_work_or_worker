@@ -5,7 +5,9 @@ import 'package:find_work_or_worker/pages/home_page.dart';
 import 'package:find_work_or_worker/service/network_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:uuid/uuid.dart';
 
+import '../core/service_locator.dart';
 import '../views/textfield.dart';
 
 class ResumePage extends StatefulWidget {
@@ -25,7 +27,6 @@ class _ResumePageState extends State<ResumePage> {
   /// #skills controllers
   final  skillsController = TextEditingController();
 
-
   /// #education controllers
   final  educationTitleController = TextEditingController();
   final  studentToController = TextEditingController();
@@ -39,46 +40,39 @@ class _ResumePageState extends State<ResumePage> {
   final  locationController = TextEditingController();
   final  descriptionController = TextEditingController();
 
-
-  Future<void> createResume() async {
+  Future<void> create() async {
     Map<String, Object?> data = {
+      "company" : companyController.text.trim(),
+      "start_year" : startYearController.text.trim(),
+      "end_year" : endYearController.text.trim(),
+      "work_type" : workTypeController.text.trim(),
+      "location" : locationController.text.trim(),
+      "description" : descriptionController.text.trim(),
+    };
+    Map<String, Object?> dataEx = {
       "title" : titleController.text.trim().toString(),
       "region" : areaController.text.trim().toString(),
       "birth_date" : birthDateController.text.trim().toString(),
       "gender" : genderController.text.trim().toString(),
     };
-    await Network.methodPost(api: Network.apiResumeCreate, data: data);
-  }
-
-  Future<void> createEducation() async {
-    Map<String, Object?> data = {
-      "title" : educationTitleController.text.trim().toString(),
-      "student_to" : studentToController.text.trim().toString(),
-      "student_from" : birthDateController.text.trim().toString(),
-      "employee" : Random.secure().nextInt(9),
+    Map<String, Object?> dataEdu = {
+      "title" : educationTitleController.text.trim(),
+      "student_to" : studentToController.text.trim(),
+      "student_from" : studentFromController.text.trim(),
     };
-    await Network.methodPost(api: Network.apiResumeEducationCreate, data: data);
-  }
 
-  Future<void> createExperience() async {
-    Map<String, Object?> data = {
-      "company" : educationTitleController.text.trim().toString(),
-      "start_year" : studentToController.text.trim().toString(),
-      "end_year" : birthDateController.text.trim().toString(),
-      "work_type" : workTypeController.text.trim().toString(),
-      "location" : locationController.text.trim().toString(),
-      "description" : descriptionController.text.trim().toString(),
-      "employee" : Random.secure().nextInt(9),
-    };
-    await Network.methodPost(api: Network.apiResumeEducationCreate, data: data);
-  }
 
-  Future<void> create() async {
-    await createResume();
-    await createEducation();
-    await createExperience();
-    if(mounted) {
+    final responseResume = await Network.methodPost(api: Network.apiResumeCreate, data: dataEx);
+    final responseEdu = await Network.methodPost(api: Network.apiResumeEducationCreate, data: dataEdu);
+    final responseEx = await Network.methodPost(api: Network.apiResumeExperienceCreate, data: data);
+    // final skills = await Network.methodPost(api: Network.apiResumeSkillsCreate, data: dataSkills, id: id);
+    print(responseEx);
+    print(responseEdu);
+    print(responseResume);
+    if(mounted && responseEx && responseEdu && responseResume) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please fill in correct")));
     }
   }
 
@@ -97,33 +91,33 @@ class _ResumePageState extends State<ResumePage> {
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.sp),
                 child: Column(
                   children: [
-                    CustomTextField(title: Strings.title, controller: titleController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.area, controller: areaController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.birthDate, controller: birthDateController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.gender, controller: genderController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.skills, controller: skillsController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.eduTitle, controller: educationTitleController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.studentTo, controller: studentToController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.studentFrom, controller: studentFromController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.experienceCompanyName, controller: companyController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.experienceDesc, controller: descriptionController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.experienceStartYear, controller: startYearController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.experienceEndYear, controller: endYearController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.experienceWorkType, controller: workTypeController),
-                    SizedBox(height: 10.sp),
-                    CustomTextField(title: Strings.experienceLocation, controller: locationController),
+                    CustomTextField(title: Strings.exampleTitle, controller: titleController, desc: Strings.title,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleArea, controller: areaController, desc: Strings.area,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleBirthDate, controller: birthDateController, desc: Strings.birthDate, isNum: true,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleGender, controller: genderController, desc: Strings.gender,),
+                    // SizedBox(height: 20.sp),
+                    // CustomTextField(title: Strings.exampleSkills, controller: skillsController, desc: Strings.skills,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleExperienceDesc, controller: educationTitleController, desc: Strings.eduTitle,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleStudentTo, controller: studentToController, desc: Strings.studentTo, isNum: true,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleStudentFrom, controller: studentFromController, desc: Strings.studentFrom, isNum: true,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleExperienceCompanyName, controller: companyController, desc: Strings.experienceCompanyName,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleExperienceDesc, controller: descriptionController, desc: Strings.experienceDesc,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleExperienceStartYear, controller: startYearController, desc: Strings.experienceStartYear, isNum: true,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleExperienceEndYear, controller: endYearController, desc: Strings.experienceEndYear, isNum: true,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleExperienceWorkType, controller: workTypeController, desc: Strings.experienceWorkType,),
+                    SizedBox(height: 20.sp),
+                    CustomTextField(title: Strings.exampleExperienceLocation, controller: locationController, desc: Strings.experienceLocation,),
 
 
                     SizedBox(height: 20.sp,),
@@ -136,14 +130,14 @@ class _ResumePageState extends State<ResumePage> {
                         width: 320.sp,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-                          border: Border.all(width: 3.sp, color: Colors.black),
+                          border: Border.all(width: 3.sp,  color: mode.value == ThemeMode.light ? Colors.black : Colors.white),
                         ),
                         child: Text(
                           Strings.publishResume,
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w600,
-                            color: Colors.black,
+                            color: mode.value == ThemeMode.light ? Colors.black : Colors.white,
                           ),
                         ),
                       ),

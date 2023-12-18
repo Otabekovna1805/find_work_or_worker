@@ -23,7 +23,6 @@ class _VerificationPageState extends State<VerificationPage> {
     final response = await RegistrationNetworkService.checkVerification(api: RegistrationNetworkService.apiCheckVerification, email: widget.email, code: codeController.text.toString());
     debugPrint(response.toString());
     if(response) {
-      // ignore: use_build_context_synchronously
       Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Something error!")));
@@ -54,7 +53,7 @@ class _VerificationPageState extends State<VerificationPage> {
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600),
             keyboardType: TextInputType.number,
-            underlineColor: mode == ThemeMode.light ? Colors.black : Colors.white,
+            underlineColor: mode.value == ThemeMode.light ? Colors.black : Colors.white,
             // If this is null it will use primaryColor: Colors.red from Theme
             length: 4,
             itemSize: 50,

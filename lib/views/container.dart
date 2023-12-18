@@ -11,18 +11,16 @@ class CustomContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      child: Container(
-        alignment: Alignment.center,
-        height: height,
-        width: width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-          border: Border.all(width: 3.sp, color: mode == ThemeMode.light ? Colors.black : Colors.white.withOpacity(0.4)),
-          color: color ?? Colors.transparent
-        ),
-        child: Text(text, style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: color != null  ? Colors.black : Colors.white.withOpacity(0.7))),
+    return Container(
+      alignment: Alignment.center,
+      height: height,
+      width: width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+        border: Border.all(width: 3.sp, color: mode.value == ThemeMode.light ? Colors.black : Colors.white),
+        color: color ?? Colors.transparent
       ),
+      child: Text(text, style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600, color: mode.value == ThemeMode.light ? Colors.black : Colors.white)),
     );
   }
 }

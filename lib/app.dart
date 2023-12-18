@@ -1,3 +1,4 @@
+import 'package:find_work_or_worker/pages/home_page.dart';
 import 'package:find_work_or_worker/pages/intro_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
         valueListenable: mode,
-        child: const ScreenUtilInit(child: IntroPage()),
+        child: ScreenUtilInit(child: userRepository.readEmail() != null ? const HomePage() : IntroPage()),
         builder: (_, mode, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,

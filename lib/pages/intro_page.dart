@@ -10,69 +10,67 @@ class IntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            Image.asset(
-              Images.logoWhite,
-              height: 400.sp,
-              width: 500.sp,
-            ),
-            SizedBox(
-              height: 80.sp,
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const HomePage()));
-              },
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                alignment: Alignment.center,
-                height: 67.sp,
-                width: 300.sp,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-                    border: Border.all(width: 3.sp),
-                    color: Colors.black),
-                child: Text(Strings.joinUs,
-                    style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white)),
-              ),
-            ),
-            SizedBox(
-              height: 20.sp,
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SignInPage()));
-              },
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                alignment: Alignment.center,
-                height: 67.sp,
-                width: 300.sp,
-                decoration: BoxDecoration(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          Image.asset(
+            Images.logoWhite,
+            height: 400.sp,
+            width: 500.sp,
+          ),
+          SizedBox(
+            height: 80.sp,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+            },
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              alignment: Alignment.center,
+              height: 67.sp,
+              width: 300.sp,
+              decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-                  border: Border.all(width: 3.sp, color: Colors.black),
-                ),
-                child: Text(
-                  Strings.signIn,
-                    style: TextStyle(
+                  border: Border.all(width: 3.sp),
+                  color: Colors.black),
+              child: Text(Strings.joinUs,
+                  style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                    ),
-                ),
+                      color: Colors.white)),
+            ),
+          ),
+          SizedBox(
+            height: 20.sp,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SignInPage()));
+            },
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              alignment: Alignment.center,
+              height: 67.sp,
+              width: 300.sp,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(15.sp)),
+                border: Border.all(width: 3.sp, color: Colors.black),
+              ),
+              child: Text(
+                Strings.signIn,
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

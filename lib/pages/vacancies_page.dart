@@ -1,9 +1,13 @@
+import 'package:find_work_or_worker/constants/images.dart';
+import 'package:find_work_or_worker/constants/strings.dart';
 import 'package:find_work_or_worker/core/service_locator.dart';
 import 'package:find_work_or_worker/model/vacancy/vacancy.dart';
 import 'package:find_work_or_worker/service/network_service.dart';
+import 'package:find_work_or_worker/views/book_mark.dart';
+import 'package:find_work_or_worker/views/element.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:lottie/lottie.dart';
 
 class VacanciesPage extends StatefulWidget {
   const VacanciesPage({super.key});
@@ -13,14 +17,9 @@ class VacanciesPage extends StatefulWidget {
 }
 
 class _VacanciesPageState extends State<VacanciesPage> {
-  bool _isVisible = false;
-  bool _isSaved = false;
-  List<VacancyModel> items = [];
-  void fetchVacancy() async {
-    final data = await Network.methodGet(api: Network.apiVacancyList);
-    items = Network.parseVacancyList(data!);
-    setState(() {});
-  }
+   bool _isVisible = false;
+  bool _isLoading = false;
+
 
   @override
   void initState() {
@@ -29,337 +28,162 @@ class _VacanciesPageState extends State<VacanciesPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      child: Scaffold(
-        body: ListView.builder(
-          itemCount: items.length,
-          itemBuilder: (context, i) {
-            final item = items[i];
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              margin: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-              ),
-              child: Expanded(
+    return Scaffold(
+      body: Stack(
+        children: [
+          ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, i) {
+              final item = items[i];
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 10.sp),
+                margin: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:  EdgeInsets.symmetric(horizontal: 20, vertical: 10.sp),
                   child: Column(children: [
                     /// #vacancy
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Row(
-                        children: [
-                          const Text(
-                            "Vacancy: ",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, fontFamily: 'Saira'),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(left: 153),
-                            child: IconButton(onPressed: (){
-                              setState(() {
-                                _isVisible = !_isVisible;
-                                setState(() {});
-                              });
-                            }, icon: Transform.rotate(angle: _isVisible ? 4.7 : 7.9,
-                                child: const Icon(Icons.arrow_back_ios_new))
+                        padding: EdgeInsets.only(bottom: 20.sp),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              Strings.vacancy,
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "Saira",
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
+                            IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isVisible = !_isVisible;
+                                    setState(() {});
+                                  });
+                                },
+                                icon: Transform.rotate(
+                                    angle: !_isVisible ? 4.7 : 7.9,
+                                    child: const Icon(
+                                        Icons.arrow_back_ios_new),
+                                ),
+                            ),
+                          ],
+                        ),),
 
                     /// #companyName
-                    Row(
-                      children: [
-                        Image.asset(
-                          "assets/image/company.png",
-                          height: 30,
-                        ),
-                         Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 10.sp),
-                            child: Text(
-                              "Company name: ${item.company}",
-                              style: TextStyle(
-                                  fontSize: 16.sp, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                      ],
+                    CustomElement(image: Images.company, text: Strings.companyNamee, elementText: item.company),
+
+                     SizedBox(
+                      height: 10.sp,
                     ),
 
-                    const SizedBox(
-                      height: 10,
+                    /// #title
+                    CustomElement(image: Images.title, text: Strings.companyTitle, elementText: item.title),
+
+                     SizedBox(
+                      height: 10.sp,
                     ),
 
-                    /// #technological
-                    Row(
-                      children: [
-                        Image.asset(
-                          "assets/image/technological.png",
-                          height: 30,
-                        ),
-                         Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 10, top: 0),
-                            child: Text(
-                              "Technological: ${item.offer}",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                      ],
+                    /// #description
+                    CustomElement(image: Images.vacancyDescription, text: Strings.companyDescription, elementText: item.description),
+
+
+                     SizedBox(
+                      height: 10.sp,
                     ),
 
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    /// #phone
+                    CustomElement(image: Images.phoneNumber, text: Strings.phone, elementText: "+998787774747"),
 
-                    /// #contact
-                    Row(
-                      children: [
-                        Image.asset(
-                          "assets/image/contact.png",
-                          height: 30,
-                        ),
-                        const Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 10, top: 5),
-                            child: Text(
-                              "For contact: @PDPAcademyRegBot",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                      ],
+                     SizedBox(
+                      height: 10.sp,
                     ),
-
-                    const SizedBox(
-                      height: 13,
-                    ),
-
 
 
                     if (_isVisible)
                       Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          /// #chargeFullName
-                          Row(
-                            children: [
-                              Image.asset(
-                                "assets/image/charge.png",
-                                height: 30,
-                              ),
-                              const Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    "Charge Full Name: PDP Support",
-                                    style: TextStyle(
-                                        fontSize: 16, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          SizedBox(
+                            height: 13.sp,
                           ),
 
-                          const SizedBox(
-                            height: 10,
+                          /// #experience
+                          CustomElement(image: Images.experience, text: Strings.experienceYear, elementText: item.experience),
+
+                           SizedBox(
+                            height: 10.sp,
                           ),
 
-                          /// #timeToApply
-                          Row(
-                            children: [
-                              Image.asset(
-                                "assets/image/time_to_apply.png",
-                                height: 30,
-                              ),
-                              const Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10, top: 0),
-                                  child: Text(
-                                    "Time  to apple: 24/7",
-                                    style: TextStyle(
-                                        fontSize: 16, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          /// #level
+                          CustomElement(image: Images.level, text: Strings.vacancyLevel, elementText: item.level),
+
+                           SizedBox(
+                            height: 10.sp,
                           ),
 
-                          const SizedBox(
-                            height: 10,
-                          ),
-
-                          /// #workTime
-                          Row(
-                            children: [
-                              Image.asset(
-                                "assets/image/work_time.png",
-                                height: 30,
-                              ),
-                              const Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10, top: 0),
-                                  child: Text(
-                                    "Work Time: 9.30 a.m 18.30 p.m",
-                                    style: TextStyle(
-                                        fontSize: 16, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(
-                            height: 10,
-                          ),
-
-                          /// #area
-                          Row(
-                            children: [
-                              Image.asset(
-                                "assets/image/area.png",
-                                height: 30,
-                              ),
-                              const Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10, top: 0),
-                                  child: Text(
-                                    "Area: Tashkent",
-                                    style: TextStyle(
-                                        fontSize: 16, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(
-                            height: 10,
-                          ),
+                          // /// #skills
+                          // CustomElement(image: Images.skills, text: Strings.skills, elementText: item.toString().toString()),
+                          //
+                          //  SizedBox(
+                          //   height: 10.sp,
+                          // ),
 
                           /// #salary
-                          Row(
-                            children: [
-                              Image.asset(
-                                "assets/image/salary.png",
-                                height: 30,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10, top: 0),
-                                child: Text(
-                                  "Salary: 500\$",
-                                  style: TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                                ),
-                              ),
-                            ],
+                          CustomElement(image: Images.salary, text: Strings.vacancySalary, elementText: item.salary.toString()),
+                            SizedBox(
+                            height: 10.sp,
+                          ),
+                          /// #overview
+                          CustomElement(image: Images.overview, text: Strings.vacancyOverview, elementText: item.jobType!),
+
+                           SizedBox(
+                            height: 10.sp,
                           ),
 
-                          const SizedBox(
-                            height: 10,
-                          ),
+                          /// #offer
+                          CustomElement(image: Images.offer, text: Strings.vacancyOffer, elementText: item.offer),
 
-                          /// #addition
-                          Row(
-                            children: [
-                              Image.asset(
-                                "assets/image/addition.png",
-                                height: 30,
-                              ),
-                              const Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10, top: 0),
-                                  child: Text(
-                                    "Addition: Must have teaching skills and be courteous",
-                                    style: TextStyle(
-                                        fontSize: 16, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(
-                            height: 10,
-                          ),
-
-                          /// #purpose
-                          Row(
-                            children: [
-                              Image.asset(
-                                "assets/image/purpose.png",
-                                height: 30,
-                              ),
-                              const Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 10, top: 0),
-                                  child: Text(
-                                    "Purpose: Hiring a quality teacher for students",
-                                    style: TextStyle(
-                                        fontSize: 16, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ),
-                            ],
+                           SizedBox(
+                            height: 10.sp,
                           ),
 
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isSaved = !_isSaved;
-                                    setState(() {});
-                                  });
-                                },
-                                icon: Image.asset(
-                                  _isSaved ?
-                                  "assets/icons/saved_fill.png" : "assets/icons/saved.png",
-                                  height: 25,
-                                  // ignore: unrelated_type_equality_checks
-                                  color: mode == ThemeMode.dark ? Colors.black : Colors.black,
-                                ),
-                              ),
-                              Text(
-                                "${DateTime.now().day < 10 ? 0 : null}${DateTime.now().day.toString()}.0${DateTime.now().month.toString()}.${DateTime.now().year.toString()}",
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, fontFamily: "Exo"),
-                              ),
+                              const SizedBox(),
+                              // CustomBookMark(idForVacancy: item.id,),
+                              userRepository.readEmail().toString() == item.user.email ? const SizedBox() : IconButton(onPressed: () => delete(item.id), icon: const Icon(Icons.delete))
                             ],
-                          )
+                          ),
                         ],
                       )
                   ]),
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
+          if(_isLoading) Center(
+            child: Lottie.asset("assets/lotties/loading.json"),
+          )
+        ],
       ),
     );
   }
+   void delete(int id) async {
+     await Network.methodDelete(api: Network.apiVacancyRemove, id: id);
+     fetchVacancy();
+   }
+   List<VacancyModel> items = [];
+   void fetchVacancy() async {
+     setState(() => _isLoading = true);
+     final data = await Network.methodGet(api: Network.apiVacancyList);
+     items = Network.parseVacancyList(data!);
+     setState(() => _isLoading = false);
+   }
 }

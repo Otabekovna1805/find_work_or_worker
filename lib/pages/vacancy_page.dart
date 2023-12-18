@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:find_work_or_worker/constants/strings.dart';
 import 'package:find_work_or_worker/pages/home_page.dart';
 import 'package:find_work_or_worker/service/network_service.dart';
+import 'package:find_work_or_worker/views/container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:uuid/uuid.dart';
 import '../views/textfield.dart';
 
 class VacancyPage extends StatefulWidget {
@@ -19,31 +21,53 @@ class _VacancyPageState extends State<VacancyPage> {
   final TextEditingController companyController = TextEditingController();
   final TextEditingController experienceController = TextEditingController();
   final TextEditingController levelController = TextEditingController();
+  final TextEditingController skillsController = TextEditingController();
   final TextEditingController jobTypeController = TextEditingController();
   final TextEditingController salaryController = TextEditingController();
   final TextEditingController overviewController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController offerController = TextEditingController();
-  final TextEditingController skillsController = TextEditingController();
 
+  final json = {
+    "id": 8,
+    "title": "string",
+    "company": "string",
+    "experience": "string",
+    "level": "Internship",
+    "job_type": "full time",
+    "salary": "string",
+    "description": "string",
+    "offer": "string"
+  };
   Future<void> createVacancy() async {
     Map<String, Object?> data = {
       "title": titleController.text.trim(),
       "company": companyController.text.trim(),
       "experience": experienceController.text.trim(),
       "level": levelController.text.trim(),
-      "salary": jobTypeController.text.trim(),
-      "overview": salaryController.text.trim(),
-      "description": overviewController.text.trim(),
-      "offer": descriptionController.text.trim(),
-      "skills": offerController.text.trim(),
+      "job_type": jobTypeController.text.trim(),
+      "salary": salaryController.text.trim(),
+      "description": descriptionController.text.trim(),
+      "offer": offerController.text.trim(),
+      "id" : const Uuid().v4().toString(),
     };
-    await Network.methodPost(api: Network.apiVacancyCreate, data: data);
+    final response = await Network.methodPost(api: Network.apiVacancyCreate, data: data);
 
-    if(companyController.text.isEmpty || titleController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(Strings.please)));
-    } else if(mounted) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomePage()));
+    if (companyController.text.isEmpty ||
+        titleController.text.isEmpty ||
+        companyController.text.isEmpty ||
+        experienceController.text.isEmpty ||
+        levelController.text.isEmpty ||
+        salaryController.text.isEmpty ||
+        descriptionController.text.isEmpty ||
+        offerController.text.isEmpty) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text(Strings.please)));
+    } else if (response && mounted) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const HomePage()));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please fill in correct")));
     }
   }
 
@@ -67,83 +91,82 @@ class _VacancyPageState extends State<VacancyPage> {
                 child: Column(
                   children: [
                     CustomTextField(
-                        title: Strings.title, controller: titleController),
-                    const SizedBox(
-                      height: 10,
+                      desc: Strings.companyName,
+                      controller: companyController,
+                      title: Strings.exampleCompanyName,
+                    ),
+                    SizedBox(
+                      height: 20.sp,
                     ),
                     CustomTextField(
-                        title: Strings.skills, controller: companyController),
-                    const SizedBox(
-                      height: 10,
+                      desc: Strings.title,
+                      controller: titleController,
+                      title: Strings.exampleVacancyTitle,
+                    ),
+                    SizedBox(
+                      height: 20.sp,
                     ),
                     CustomTextField(
-                        title: Strings.skills, controller: companyController),
-                    const SizedBox(
-                      height: 10,
+                      desc: Strings.vacancyDesc,
+                      controller: descriptionController,
+                      title: Strings.exampleVacancyDesc,
+                    ),
+                    SizedBox(
+                      height: 20.sp,
                     ),
                     CustomTextField(
-                        title: Strings.skills, controller: companyController),
-                    const SizedBox(
-                      height: 10,
+                      desc: Strings.experience,
+                      controller: experienceController,
+                      title: Strings.exampleExperience,
+                    ),
+                    SizedBox(
+                      height: 20.sp,
                     ),
                     CustomTextField(
-                        title: Strings.skills, controller: companyController),
-                    const SizedBox(
-                      height: 10,
+                      desc: Strings.level,
+                      controller: levelController,
+                      title: Strings.exampleLevel,
+                    ),
+                    SizedBox(
+                      height: 20.sp,
                     ),
                     CustomTextField(
-                        title: Strings.skills, controller: companyController),
-                    const SizedBox(
-                      height: 10,
+                      desc: Strings.jobType,
+                      controller: jobTypeController,
+                      title: Strings.exampleJobType,
+                    ),
+                    SizedBox(
+                      height: 20.sp,
                     ),
                     CustomTextField(
-                        title: Strings.skills, controller: companyController),
-                    const SizedBox(
-                      height: 10,
+                      desc: Strings.howSalary,
+                      controller: salaryController,
+                      title: Strings.exampleHowSalary,
+                    ),
+                    SizedBox(
+                      height: 20.sp,
                     ),
                     CustomTextField(
-                        title: Strings.skills, controller: companyController),
-                    const SizedBox(
-                      height: 10,
+                      desc: Strings.offer,
+                      controller: offerController,
+                      title: Strings.exampleOffer,
                     ),
-                    // CustomTextField(title: Strings.forContact, controller: contactController),
-                    // const SizedBox(height: 10,),
-                    // CustomTextField(title: Strings.chargeFullName, controller: chargeFullNameController),
-                    // const SizedBox(height: 10,),
-                    // CustomTextField(title: Strings.timeToApply, controller: timeToApplyController),
-                    // const SizedBox(height: 10,),
-                    // CustomTextField(title: Strings.area, controller: areaController),
-                    // const SizedBox(height: 10,),
-                    // CustomTextField(title: Strings.howSalary, controller: salaryController),
-                    // const SizedBox(height: 10,),
-                    // CustomTextField(title: Strings.addition, controller: additionController),
-                    // const SizedBox(height: 10,),
-                    // CustomTextField(title: Strings.purpose, controller: purposeController),
-
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: 20.sp,
+                    ),
+                     SizedBox(
+                      height: 20.sp,
                     ),
                     InkWell(
                       onTap: () => createVacancy(),
                       borderRadius: BorderRadius.circular(15),
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 67.sp,
-                        width: 320.sp,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(15.sp)),
-                          border: Border.all(width: 3.sp, color: Colors.black),
-                        ),
-                        child: Text(
-                          Strings.publishResume,
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black,
-                          ),
-                        ),
+                      child: CustomContainer(
+                          width: 320.sp,
+                          text: Strings.publishVacancy,
+                          height: 67.sp,
                       ),
                     ),
+
                   ],
                 ),
               ),
